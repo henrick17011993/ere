@@ -1,0 +1,53 @@
+/* Estilos para a tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff; /* Cor de fundo da tabela */
+    border-radius: 80px; /* Cantos arredondados da tabela */
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: none; /* Remove as bordas das células */
+}
+
+th {
+    background-color: #1773f9; /* Cor de fundo do cabeçalho */
+    color: #fff; /* Cor do texto do cabeçalho */
+    border-radius: 50px;
+}
+
+/* Estilos para a linha de total */
+tfoot {
+    font-weight: bold;
+}
+
+tfoot td {
+    padding-top: 10px;
+    border-top: none; /* Remove a borda superior da linha de total */
+    border-radius: 0 0 10px 10px; /* Cantos arredondados da linha de total */
+}
+
+/* Estilos para a assinatura */
+.signature-row {
+    font-style: italic;
+    border-radius: 0 0 10px 10px; /* Cantos arredondados da linha de assinatura */
+}
+.image-cell {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.image-cell img {
+    height: auto;
+}
+.center {
+    text-align: center;
+}
+.image-cell {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    text-align: center; /* Alinha o texto (e imagens) ao centro */
+}
