@@ -105,6 +105,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'Estoque':
                 Estoque($post);
                 break;
+            case 'Cliente':
+                Cliente($post);
+                break;
         }
     }
 }
@@ -349,3 +352,52 @@ function getPuxarEstoque($idproduto) {
         return false;
     }
 }
+
+function Cliente($post){
+
+    $conn= conect();
+
+    $stmt = $conn->prepare("INSERT INTO cliente (Endereco, Bairro, RazaoSocial, Cep, CpfCnpj, Telefone, WhatsApp, email) VALUES (:Endereco, :Bairro, :RazaoSocial, :Cep, :CpfCnpj, :Telefone, :WhatsApp, :email)");
+    $stmt->bindParam(':Endereco', $Endereco);
+    $stmt->bindParam(':Bairro', $Bairro);
+    $stmt->bindParam(':RazaoSocial', $RazaoSocial);
+    $stmt->bindParam(':Cep', $Cep);
+    $stmt->bindParam(':CpfCnpj', $CpfCnpj);
+    $stmt->bindParam(':Telefone', $Telefone);
+    $stmt->bindParam(':WhatsApp', $WhatsApp);
+    $stmt->bindParam(':email', $email);
+
+    $Endereco = $post['Endereco'];
+    $Bairro = $post['Bairro'];
+    $RazaoSocial = $post['RazaoSocial'];
+    $Cep = $post['Cep'];
+    $CpfCnpj = $post['CpfCnpj'];
+    $Telefone = $post['Telefone'];
+    $WhatsApp = $post['WhatsApp'];
+    $email = $post['email'];
+
+    $stmt->execute();
+
+    return "cliente salvo com sucesso!";
+};
+
+function buscarClientes()
+{
+    $conn= conect();
+
+    $sql = "SELECT * FROM cliente";
+    $result = $conn->query($sql);
+
+    $clientes = array();
+
+    if ($result->rowCount() > 0) {
+        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+            $clientes[] = $row;
+        }
+    }
+
+    $conn = null; // Fecha a conexão
+
+    return $clientes;
+}
+

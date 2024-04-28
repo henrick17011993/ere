@@ -297,6 +297,20 @@ $(document).ready(function() {
     });
 });
 
+$(document).ready(function() {
+    $('#searchInputCliente').on('keyup', function() {
+        var searchText = $(this).val().toLowerCase();
+        $('.tabelaCliente tbody tr').each(function() {
+            var rowData = $(this).text().toLowerCase();
+            if (rowData.indexOf(searchText) === -1) {
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
+        });
+    });
+});
+
 document.addEventListener("DOMContentLoaded", function() {
     var botoesEditar = document.querySelectorAll("a[id^='btnU_']");
 

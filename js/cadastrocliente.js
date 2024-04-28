@@ -9,7 +9,7 @@ jQuery(function() {
         let WhatsApp = $('#WhatsApp').val();
         let email = $('#Email').val();
         
-        if(confirm("Deseja salvar a quantidade de estoque?")){
+        if(confirm("Deseja salvar esse Cliente?")){
             $.ajax({
                 type: "POST",
                 url: "php/funcoes.php",
@@ -47,5 +47,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
 });
-
-

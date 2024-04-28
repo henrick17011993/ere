@@ -17,6 +17,7 @@
     <?php 
         require "php/funcoes.php";
         $arrayResultados = show();
+        $clientes = buscarClientes();
     ?> 
            
     <header>
@@ -30,15 +31,15 @@
             </div>
             <div class="div-input" id="divNome">
                 <label for="RazaoSocial">Razão Social</label>
-                <input type="text" value="" name="RazaoSocial" id="RazaoSocial" required="True" style="width: 200px; padding: 5px; box-sizing: border-box;">
+                <input type="text" value="" name="RazaoSocial" id="RazaoSocial" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
             <div class="div-input" id="divEndereco">
                 <label for="Endereco">Endereço</label>
-                <input type="text" value="" name="Endereco" id="Endereco" required="True" style="width: 200px; padding: 5px; box-sizing: border-box;">
+                <input type="text" value="" name="Endereco" id="Endereco" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>            
             <div class="div-input" id="divBairro">
                 <label for="Bairro">Bairro</label>
-                <input type="text" value="" name="Bairro" id="Bairro" required="True" style="width: 200px; padding: 5px; box-sizing: border-box;">
+                <input type="text" value="" name="Bairro" id="Bairro" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
             <div class="div-input" id="divCep">
                 <label for="Cep">Cep</label>
@@ -46,35 +47,67 @@
             </div>
             <div class="div-input" id="divCpfCnpj">
                 <label for="CpfCnpj">CPF/CNPJ</label>
-                <input type="text" value="" name="CpfCnpj" id="CpfCnpj" required="True" style="width: 200px; padding: 5px; box-sizing: border-box;">
+                <input type="text" value="" name="CpfCnpj" id="CpfCnpj" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>            
             <div class="div-input" id="divContato">
                 <label for="Contato">Contato</label>
-                <input type="text" value="" name="Contato" id="Contato" required="True" style="width: 200px; padding: 5px; box-sizing: border-box;">
+                <input type="text" value="" name="Contato" id="Contato" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
             <div class="div-input" id="divTelefone">
                 <label for="Telefone">Telefone</label>
-                <input type="text" value="" name="Telefone" id="Telefone" required="True" style="width: 200px; padding: 5px; box-sizing: border-box;">
+                <input type="text" value="" name="Telefone" id="Telefone" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
             <div class="div-input" id="divWhatsApp">
                 <label for="WhatsApp">WhatsApp</label>
-                <input type="text" value="" name="WhatsApp" id="WhatsApp" required="True" style="width: 200px; padding: 5px; box-sizing: border-box;">
+                <input type="text" value="" name="WhatsApp" id="WhatsApp" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
             <div class="div-input" id="divEmail">
                 <label for="Email">Email</label>
-                <input type="email" value="" name="Email" placeholder="Digite seu e-mail" id="Email" required="True" style="width: 200px; padding: 5px; box-sizing: border-box;">
+                <input type="email" value="" name="Email" placeholder="Digite seu e-mail" id="Email" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>           
-               
+            </tbody>
+                </tr>
+                    <tr>
+                        <td colspan="0">
+                            <button type="button" id="clientesubmit">Salvar Cliente</button>
+                        </td>
+                    </tr>
+            </tfoot>
         </div>       
         <div class="show">
             <div class="card-head">
                 <h3>Dados Clientes</h3>
-                <li><input type="text" id="searchInput" placeholder="Pesquisar produtos..."></li>
+                <li><input type="text" id="searchInputCliente" placeholder="Pesquisar Clientes..."></li>
             </div>
-
-            <table class="tabelaCliente">
-
+                <table class="tabelaCliente">
+                <thead>
+                    <tr>
+                        <th>Endereço</th>
+                        <th>Bairro</th>
+                        <th>Razão Social</th>
+                        <th>CEP</th>
+                        <th>CPF/CNPJ</th>
+                        <th>Telefone</th>
+                        <th>WhatsApp</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($clientes as $cliente): ?>
+                        <tr>
+                            <td><?php echo $cliente['Endereco']; ?></td>
+                            <td><?php echo $cliente['Bairro']; ?></td>
+                            <td><?php echo $cliente['RazaoSocial']; ?></td>
+                            <td><?php echo $cliente['Cep']; ?></td>
+                            <td><?php echo $cliente['CpfCnpj']; ?></td>
+                            <td><?php echo $cliente['Telefone']; ?></td>
+                            <td><?php echo $cliente['WhatsApp']; ?></td>
+                            <td><?php echo $cliente['Email']; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
             </table>
+        </div>
     </main>
     
     <footer>
