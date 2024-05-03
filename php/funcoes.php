@@ -31,9 +31,7 @@ function BuscaDados($id){
     return $query->fetch(PDO::FETCH_ASSOC);
 }
 
-
-function editar($post)
-{
+function editar($post){
     $conn = conect();
     $SQL = "UPDATE henrimack 
             SET TIPO = :TIPO, MODELOS = :MODELOS, COR = :COR, VALOR = :VALOR 
@@ -51,6 +49,15 @@ function Deleta($post){
     $SQL = "DELETE FROM henrimack WHERE IDTIPO = :id";
     $query = $conn->prepare($SQL);
     $query->bindParam(":id", $post["id"], PDO::PARAM_INT);
+}
+
+function DeletaCliente($post){
+    $conn = conect();
+    $SQL = "DELETE FROM cliente WHERE IDCliente = :IDCliente";
+    $query = $conn->prepare($SQL);
+    $query->bindParam(":IDCliente", $post["idCliente"], PDO::PARAM_INT);
+    
+    $query->execute();
 }
 
 function BuscaMaxSequencia($conn, $tableName, $id) {
@@ -107,6 +114,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 break;
             case 'Cliente':
                 Cliente($post);
+                break;
+            case 'ClienteRepetido':
+                ClienteRepetido($post);
+                break;
+            case 'AtualizarCliente':
+                AtualizarCliente($post);
+                break;
+            case 'DeletaCliente':
+                DeletaCliente($post);
                 break;
         }
     }
@@ -354,10 +370,9 @@ function getPuxarEstoque($idproduto) {
 }
 
 function Cliente($post){
-
     $conn= conect();
-
-    $stmt = $conn->prepare("INSERT INTO cliente (Endereco, Bairro, RazaoSocial, Cep, CpfCnpj, Telefone, WhatsApp, email) VALUES (:Endereco, :Bairro, :RazaoSocial, :Cep, :CpfCnpj, :Telefone, :WhatsApp, :email)");
+    
+    $stmt = $conn->prepare("INSERT INTO cliente (Endereco, Bairro, RazaoSocial, Cep, CpfCnpj, Telefone, WhatsApp, email, Contato) VALUES (:Endereco, :Bairro, :RazaoSocial, :Cep, :CpfCnpj, :Telefone, :WhatsApp, :email, :Contato)");
     $stmt->bindParam(':Endereco', $Endereco);
     $stmt->bindParam(':Bairro', $Bairro);
     $stmt->bindParam(':RazaoSocial', $RazaoSocial);
@@ -366,6 +381,7 @@ function Cliente($post){
     $stmt->bindParam(':Telefone', $Telefone);
     $stmt->bindParam(':WhatsApp', $WhatsApp);
     $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':Contato', $Contato);
 
     $Endereco = $post['Endereco'];
     $Bairro = $post['Bairro'];
@@ -375,14 +391,81 @@ function Cliente($post){
     $Telefone = $post['Telefone'];
     $WhatsApp = $post['WhatsApp'];
     $email = $post['email'];
+    $Contato = $post['Contato'];
 
     $stmt->execute();
 
-    return "cliente salvo com sucesso!";
-};
+    return "Cliente salvo com sucesso!";
+}
 
-function buscarClientes()
-{
+function AtualizarCliente($post){
+    $conn = conect();
+
+    $stmt = $conn->prepare("UPDATE cliente SET Endereco = :Endereco, Bairro = :Bairro, RazaoSocial = :RazaoSocial, Cep = :Cep, CpfCnpj = :CpfCnpj, Telefone = :Telefone, WhatsApp = :WhatsApp, email = :email, Contato = :Contato WHERE IDCliente = :IDCliente");
+
+    $stmt->bindParam(':Endereco', $Endereco);
+    $stmt->bindParam(':Bairro', $Bairro);
+    $stmt->bindParam(':RazaoSocial', $RazaoSocial);
+    $stmt->bindParam(':Cep', $Cep);
+    $stmt->bindParam(':CpfCnpj', $CpfCnpj);
+    $stmt->bindParam(':Telefone', $Telefone);
+    $stmt->bindParam(':WhatsApp', $WhatsApp);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':Contato', $Contato);
+    $stmt->bindParam(':IDCliente', $IDCliente);
+
+    $Endereco = $post['Endereco'];
+    $Bairro = $post['Bairro'];
+    $RazaoSocial = $post['RazaoSocial'];
+    $Cep = $post['Cep'];
+    $CpfCnpj = $post['CpfCnpj'];
+    $Telefone = $post['Telefone'];
+    $WhatsApp = $post['WhatsApp'];
+    $email = $post['email'];
+    $Contato = $post['Contato'];
+    $IDCliente = $post['idCliente'];
+
+    $stmt->execute();
+
+    return "Cliente atualizado com sucesso!";
+}
+
+if (isset($_POST['action']) && $_POST['action'] == 'atualizar_tabela') {
+    $clientes = buscarClientes();
+
+    // Construa a tabela em HTML
+    $html = '<table class="tabelaCliente">';
+    $html .= '<thead>';
+    $html .= '<tr>';   
+    $html .= '</tr>';
+    $html .= '</thead>';
+    $html .= '<tbody>';
+    foreach ($clientes as $cliente) {
+        $html .= '<tr>';
+        $html .= '<td>' . $cliente['RazaoSocial'] . '</td>';
+        $html .= '<td>' . $cliente['Endereco'] . '</td>';
+        $html .= '<td>' . $cliente['Bairro'] . '</td>';
+        $html .= '<td>' . $cliente['Cep'] . '</td>';
+        $html .= '<td>' . $cliente['CpfCnpj'] . '</td>';
+        $html .= '<td>' . $cliente['Telefone'] . '</td>';
+        $html .= '<td>' . $cliente['WhatsApp'] . '</td>';
+        $html .= '<td>' . $cliente['Contato'] . '</td>';
+        $html .= '<td>' . $cliente['Email'] . '</td>';
+        $html .= '<td>';
+        $html .= '<div class="button-group">';
+        $html .= '<a class="actions"><button id="buttonEditar_' . $cliente['IDCliente'] . '">✎</button></a>';
+        $html .= '<a class="actions"><button id="buttonCancelarEdicao">X</button></a>';
+        $html .= '<a class="actions"><button id="buttonExcluir_' . $cliente['IDCliente'] . '">🗑</button></a>';
+        $html .= '</div>';
+        $html .= '</td>';
+        $html .= '</tr>';
+    }
+    $html .= '</table>';
+
+    echo $html;
+}
+
+function buscarClientes(){
     $conn= conect();
 
     $sql = "SELECT * FROM cliente";
@@ -396,8 +479,43 @@ function buscarClientes()
         }
     }
 
-    $conn = null; // Fecha a conexão
+    $conn = null; 
 
     return $clientes;
+}
+
+function ClienteRepetido($post){
+    $conn = conect(); 
+    $campoCC = null;
+    $campoRS = null;
+
+    if (isset($post["campo"])) {
+        if ($post["campo"] === "CpfCnpj") {
+            $campoCC = $post["valor"];
+        } else {
+            $campoRS = $post["valor"];
+        }
+    }
+
+    $stmt_check = $conn->prepare("SELECT COUNT(*) FROM cliente WHERE CpfCnpj = :CpfCnpj OR RazaoSocial = :RazaoSocial");
+
+    if ($campoCC !== null) {
+        $stmt_check->bindParam(':CpfCnpj', $campoCC);
+    } else {
+        $stmt_check->bindValue(':CpfCnpj', null, PDO::PARAM_NULL);
+    }
+
+    if ($campoRS !== null) {
+        $stmt_check->bindParam(':RazaoSocial', $campoRS);
+    } else {
+        $stmt_check->bindValue(':RazaoSocial', null, PDO::PARAM_NULL);
+    }
+
+    $stmt_check->execute();
+    $count = $stmt_check->fetchColumn();
+
+    if ($count > 0) {
+        echo 'existe';
+    }
 }
 

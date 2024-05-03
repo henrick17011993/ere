@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
         <title>E.R.E. Moveis para Locação</title>
         <link rel="stylesheet" type="text/css" href="css/main.css" />
+        <link rel="stylesheet" type="text/css" href="css/cadastrocliente.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-masker/1.1.0/vanilla-masker.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" crossorigin="anonymous"></script>
         <script src="./js/main.js"></script>
         <script src="./js/cadastrocliente.js"></script>
-
-        
     </head>
 <body>
     <?php 
@@ -31,7 +30,7 @@
             </div>
             <div class="div-input" id="divNome">
                 <label for="RazaoSocial">Razão Social</label>
-                <input type="text" value="" name="RazaoSocial" id="RazaoSocial" style="width: 200px; padding: 5px; box-sizing: border-box;">
+                <input type="text" value="" name="RazaoSocial" id="RazaoSocial" required="true" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
             <div class="div-input" id="divEndereco">
                 <label for="Endereco">Endereço</label>
@@ -47,7 +46,7 @@
             </div>
             <div class="div-input" id="divCpfCnpj">
                 <label for="CpfCnpj">CPF/CNPJ</label>
-                <input type="text" value="" name="CpfCnpj" id="CpfCnpj" style="width: 200px; padding: 5px; box-sizing: border-box;">
+                <input type="text" value="" name="CpfCnpj" id="CpfCnpj" required="true" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>            
             <div class="div-input" id="divContato">
                 <label for="Contato">Contato</label>
@@ -59,17 +58,22 @@
             </div>
             <div class="div-input" id="divWhatsApp">
                 <label for="WhatsApp">WhatsApp</label>
-                <input type="text" value="" name="WhatsApp" id="WhatsApp" style="width: 200px; padding: 5px; box-sizing: border-box;">
+                <input type="text" value="" name="WhatsApp" id="WhatsApp" required="true" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
             <div class="div-input" id="divEmail">
                 <label for="Email">Email</label>
-                <input type="email" value="" name="Email" placeholder="Digite seu e-mail" id="Email" style="width: 200px; padding: 5px; box-sizing: border-box;">
+                <input type="email" value="" name="Email" required="true" placeholder="Digite seu e-mail" id="Email" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>           
+            <div class="div-input" style="display: none;">
+                <label for="IDCliente">ID do Cliente:</label>
+                <input type="text" id="IDCliente">
+            </div>
             </tbody>
                 </tr>
                     <tr>
                         <td colspan="0">
                             <button type="button" id="clientesubmit">Salvar Cliente</button>
+                            <button id= "clienteatualizar">Editar</button>
                         </td>
                     </tr>
             </tfoot>
@@ -82,27 +86,37 @@
                 <table class="tabelaCliente">
                 <thead>
                     <tr>
+                        <th>Razão Social</th>
                         <th>Endereço</th>
                         <th>Bairro</th>
-                        <th>Razão Social</th>
                         <th>CEP</th>
                         <th>CPF/CNPJ</th>
                         <th>Telefone</th>
                         <th>WhatsApp</th>
+                        <th>Contato</th>
                         <th>Email</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($clientes as $cliente): ?>
                         <tr>
+                            <td><?php echo $cliente['RazaoSocial']; ?></td>
                             <td><?php echo $cliente['Endereco']; ?></td>
                             <td><?php echo $cliente['Bairro']; ?></td>
-                            <td><?php echo $cliente['RazaoSocial']; ?></td>
                             <td><?php echo $cliente['Cep']; ?></td>
                             <td><?php echo $cliente['CpfCnpj']; ?></td>
                             <td><?php echo $cliente['Telefone']; ?></td>
                             <td><?php echo $cliente['WhatsApp']; ?></td>
+                            <td><?php echo $cliente['Contato']; ?></td>
                             <td><?php echo $cliente['Email']; ?></td>
+                            <td>
+                                <div class="button-group">
+                                    <a class="actions"><button id="buttonEditar_<?php echo $cliente['IDCliente']; ?>">✎</button></a>
+                                    <a class="actions"><button id="buttonCancelarEdicao">X</button></a>
+                                    <a class="actions"><button id="buttonExcluir_<?php echo $cliente['IDCliente']; ?>">🗑</button></a>
+                                </div>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

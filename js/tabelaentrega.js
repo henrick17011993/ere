@@ -23,11 +23,12 @@ jQuery(function() {
         
         let dados_codificados = btoa(JSON.stringify({evento: evento, montadora: montadora, contato: contato, stand: stand, local: local, entrega: entrega, retirada: retirada, produtos: produtosSelecionados}));
         let cookie_nome = 'dados_cookie';
-        let duracao = 3600; 
+        let duracao = 100; 
         let path = '/';
         document.cookie = cookie_nome + '=' + dados_codificados + '; expires=' + new Date(Date.now() + duracao * 1000).toUTCString() + '; path=' + path;
         window.location.href = 'entregapdf.php';
     });
+
 });
 
 

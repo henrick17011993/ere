@@ -7,7 +7,7 @@ body {
     color: #1773f9; 
 }
 
-body div.show a#btnPDF, #orcamentoForm, #TabelaEntregaForm, #clientesubmit{
+body div.show a#btnPDF, #orcamentoForm, #TabelaEntregaForm, #{
     cursor: pointer;
 }
 
@@ -197,6 +197,7 @@ main div.but {
     z-index: 1000;
 }
 #clientesubmit{
+    display: flex;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #3498db;
     background: #fff;
@@ -206,6 +207,18 @@ main div.but {
     text-align: end;
     border: none;
     margin-left: 2280px
+}
+#clienteatualizar{
+    display: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #3498db;
+    background: #fff;
+    padding: 11px;
+    border-radius: 5px;
+    font-size: 13px;
+    text-align: end;
+    border: none;
+    margin-left: 2280px;
 }
 
 

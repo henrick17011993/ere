@@ -17,6 +17,8 @@ $(document).ready(function () {
         }
     });
    
+    
+   
     $("#orcamentoForm").on("click", function() {
         
         setTimeout(function() {
@@ -90,31 +92,25 @@ $(document).ready(function () {
     });
 
     function VerificaRequired() {
-    
-        obrigatorios = [];
-        $('select[required]').each(function() {
-            if ((this.value).trim() == '') {
-                obrigatorios.push(this.id);
-            }
-        });
-    
+        var obrigatorios = [];
         $('input[required]').each(function() {
             if ((this.value).trim() == '') {
                 obrigatorios.push(this.id);
+                $(this).css('border-color', 'red');
             }
         });
-        
-        campos = "";
+    
+        var campos = "";
         if (obrigatorios.length > 0) {
-            for (i = 0; i < obrigatorios.length; i++) { 
-                campos += ", " + $("#title"+obrigatorios[i]).text().replace(" (*)", "");;
-                $("#"+obrigatorios[i]).css('border-color', 'red');
+            for (var i = 0; i < obrigatorios.length; i++) { 
+                campos += ", " + $("label[for='"+obrigatorios[i]+"']").text().replace(" (*)", "");
             }
             return "Campos obrigatórios não preenchidos: " + campos.substring(2);
         } else {
             return true;
         }        
     }
+    
 
     function exibirImagemInput() {
         const file = imagemInput.prop('files')[0];

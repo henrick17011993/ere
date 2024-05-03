@@ -1,0 +1,20 @@
+button {    
+    font-size: 24px; 
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0; 
+}
+
+button:focus {
+    outline: none;
+}
+
+button:hover {
+    color: #333; 
+}
+
+.button-group {
+    display: inline-flex;
+    gap: 15px; 
+}
