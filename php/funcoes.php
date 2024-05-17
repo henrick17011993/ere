@@ -14,13 +14,14 @@ function show(){
     if (!$conn) {
         return false;
     }
-    $SQL = "SELECT * FROM henrimack";
+    $SQL = "SELECT * FROM henrimack ORDER BY IDTIPO DESC";
     $stmt = $conn->query($SQL);
     if (!$stmt) {
         return false;
     }
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
 
 function BuscaDados($id){
     $conn = conect();
@@ -49,6 +50,7 @@ function Deleta($post){
     $SQL = "DELETE FROM henrimack WHERE IDTIPO = :id";
     $query = $conn->prepare($SQL);
     $query->bindParam(":id", $post["id"], PDO::PARAM_INT);
+    $query->execute();
 }
 
 function DeletaCliente($post){
@@ -124,6 +126,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'DeletaCliente':
                 DeletaCliente($post);
                 break;
+                case 'buscarClientes':
+                    $filtro = isset($_POST['filtro']) ? $_POST['filtro'] : null;
+                    $clientes = buscarClientes($filtro);
+                    echo json_encode($clientes);
+                    break;
         }
     }
 }
@@ -184,12 +191,13 @@ function Orcamento($post) {
     try {
         $conn = conect();
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dataAtual = date('Y-m-d');
 
         $razaoSocial = $_POST['razaoSocial'];
         $endereco = $_POST['endereco'];
         $bairro = $_POST['bairro'];
         $cep = $_POST['cep'];
-        $cidade = $_POST['cidade'];
+        $WhatsApp = $_POST['WhatsApp'];
         $estado = $_POST['estado'];
         $cpfcnpj = $_POST['cpfcnpj'];
         $rg = $_POST['rg'];
@@ -202,11 +210,12 @@ function Orcamento($post) {
         $data_entrega = $_POST['dataEntrega'];
         $data_de = $_POST['dataDe'];
         $data_ate = $_POST['dataAte'];
+        $DAorcfeito = $_POST['dataAte'];
 
         $codigo = '';
         $codigoUnico = GerarCodigo($cpfcnpj,$razaoSocial,$codigo);
 
-        $sql = "INSERT INTO orcamento (codigounico, razaosocial, endereco, bairro, cep, cidade, estado, cpfcnpj, rg, ccm, contato, telefone, email, nome_evento, local, data_entrega, data_de, data_ate) VALUES (:codigounico, :razaosocial, :endereco, :bairro, :cep, :cidade, :estado, :cpfcnpj, :rg, :ccm, :contato, :telefone, :email, :nome_evento, :local, :data_entrega, :data_de, :data_ate)";
+        $sql = "INSERT INTO orcamento (codigounico, razaosocial, endereco, bairro, cep, WhatsApp, estado, cpfcnpj, rg, ccm, contato, telefone, email, nome_evento, local, data_entrega, data_de, data_ate, DAorcfeito) VALUES (:codigounico, :razaosocial, :endereco, :bairro, :cep, :WhatsApp, :estado, :cpfcnpj, :rg, :ccm, :contato, :telefone, :email, :nome_evento, :local, :data_entrega, :data_de, :data_ate, :DAorcfeito)";
 
         $stmt = $conn->prepare($sql);
 
@@ -215,7 +224,7 @@ function Orcamento($post) {
         $stmt->bindParam(':endereco', $endereco);
         $stmt->bindParam(':bairro', $bairro);
         $stmt->bindParam(':cep', $cep);
-        $stmt->bindParam(':cidade', $cidade);
+        $stmt->bindParam(':WhatsApp', $WhatsApp);
         $stmt->bindParam(':estado', $estado);
         $stmt->bindParam(':cpfcnpj', $cpfcnpj);
         $stmt->bindParam(':rg', $rg);
@@ -228,6 +237,7 @@ function Orcamento($post) {
         $stmt->bindParam(':data_entrega', $data_entrega);
         $stmt->bindParam(':data_de', $data_de);
         $stmt->bindParam(':data_ate', $data_ate);
+        $stmt->bindParam(':DAorcfeito',$dataAtual);
 
         $stmt->execute();
 
@@ -465,22 +475,29 @@ if (isset($_POST['action']) && $_POST['action'] == 'atualizar_tabela') {
     echo $html;
 }
 
-function buscarClientes(){
-    $conn= conect();
+function buscarClientes($filtro = null){
+    $conn = conect();
 
+    if (!$conn) {
+        return array();
+    }
     $sql = "SELECT * FROM cliente";
-    $result = $conn->query($sql);
-
+    if($filtro){
+        $sql .= " WHERE $filtro";
+    }
+    try {
+        $result = $conn->query($sql);
+    } catch (PDOException $e) {
+        $conn = null;
+        return array();
+    }
     $clientes = array();
-
-    if ($result->rowCount() > 0) {
+    if ($result) {
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             $clientes[] = $row;
         }
     }
-
     $conn = null; 
-
     return $clientes;
 }
 

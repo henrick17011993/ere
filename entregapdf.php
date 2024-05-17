@@ -1,22 +1,19 @@
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
 require "php/funcoes.php";
-global $montadora;
 
-if(isset($_COOKIE['dados_cookie'])) {
-    $dados_codificados = $_COOKIE['dados_cookie'];
+$mpdf = new mPDF();
 
-    $dados = json_decode(base64_decode($dados_codificados), true);
-    $mpdf = new mPDF();
-    
-    $evento = $dados['evento'];
-    $montadora = $dados['montadora'];
-    $contato = $dados['contato'];
-    $stand = $dados['stand'];
-    $local = $dados['local'];
-    $entrega = $dados['entrega'];
-    $retirada = $dados['retirada'];
-    $produtosSelecionados = $dados['produtos'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    global $montadora;
+
+    $evento = isset($_POST['evento']) ? $_POST['evento'] : '';
+    $montadora = isset($_POST['montadora']) ? $_POST['montadora'] : '';
+    $contato = isset($_POST['contato']) ? $_POST['contato'] : '';
+    $stand = isset($_POST['stand']) ? $_POST['stand'] : '';
+    $local = isset($_POST['local']) ? $_POST['local'] : '';
+    $entrega = isset($_POST['entrega']) ? $_POST['entrega'] : '';
+    $retirada = isset($_POST['retirada']) ? $_POST['retirada'] : '';
 
     try {
         $db = new PDO("mysql:host=localhost;dbname=cadeira", "root");
@@ -59,12 +56,14 @@ if(isset($_COOKIE['dados_cookie'])) {
 
     $html .= '<!-- Aqui vai o restante do código, dentro do loop dos produtos -->';
 
+    $produtosSelecionados = json_decode($_POST['produtos'], true);
     foreach ($produtosSelecionados as $index => $produto) {
         if ($index % 10 === 0 && $index !== 0) {
             $mpdf->AddPage();
         }
 
         $id = $produto['id'];
+        $quantidade = $produto['quantidade'];
         $observacao = urldecode($produto['observacao']);
         $obse_queb = wordwrap($observacao, 10, "\n", true);
 
@@ -105,7 +104,14 @@ if(isset($_COOKIE['dados_cookie'])) {
     $mpdf->WriteHTML($html);
     $data_atual = date('d/m/Y');
     $mpdf->SetFooter("{$montadora} - {$data_atual} - pág.{PAGENO}");
-    $mpdf->Output("TabelaEntrega_{$montadora}.pdf", 'D');
+    $pdf_filename = "TabelaEntrega_{$montadora}.pdf";
+    $mpdf->Output($pdf_filename, 'F'); // Salva o arquivo no servidor
+
+    // Retorna um JSON indicando o sucesso e o nome do arquivo PDF
+    $response = array(
+        'success' => true,
+        'pdf_filename' => $pdf_filename
+    );
+    echo json_encode($response);
 }
 ?>
-

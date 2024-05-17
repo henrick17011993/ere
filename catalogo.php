@@ -62,7 +62,7 @@
                                 <tr>
                                     <td>
                                         <div class="image-container">
-                                            <img src="<?= htmlspecialchars($produto["IMAGEM"], ENT_QUOTES, 'UTF-8') ?>" alt="Imagem">
+                                        <img src="<?= htmlspecialchars($produto["IMAGEM"], ENT_QUOTES, 'UTF-8') ?>" alt="Imagem" onerror="this.onerror=null; this.src='/caminho/para/imagem-padrao.jpg';">
                                         </div>
                                     </td>
                                     <td><?= $produto["TIPO"] ?></td>

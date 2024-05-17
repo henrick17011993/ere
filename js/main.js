@@ -66,7 +66,7 @@ $(document).ready(function () {
     // });
 
     $('[id^=btnD_]').on('click', function () {
-        if (confirm('tem certeza ? ')) {
+        if (confirm('tem certeza que deseja excluir esse produto? ')) {
             const id = $(this).data('id');
             deletaDados(id);
         }
@@ -218,10 +218,10 @@ $(document).ready(function () {
         var formData = new FormData();
 
         formData.append('razaoSocial', document.getElementById('razaosocial').value);
-        formData.append('endereco', document.getElementById('Endereço').value);
+        formData.append('endereco', document.getElementById('Endereco').value);
         formData.append('bairro', document.getElementById('Bairro').value);
         formData.append('cep', document.getElementById('Cep').value);
-        formData.append('cidade', document.getElementById('Cidade').value);
+        formData.append('WhatsApp', document.getElementById('WhatsApp').value);
         formData.append('estado', document.getElementById('Estado').value);
         formData.append('cpfcnpj', document.getElementById('cpfcnpj').value);
         formData.append('rg', document.getElementById('RG').value);
@@ -325,15 +325,3 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-    $('#Cep').mask('00000-000');
-    $('#Telefone').mask('(00) 0000-0000');
-    
-    $('#cpfcnpj').mask('000.000.000-00', {
-        onKeyPress : function(cpfcnpj, e, field, options) {
-          const masks = ['000.000.000-000', '00.000.000/0000-00'];
-          const mask = (cpfcnpj.length > 14) ? masks[1] : masks[0];
-          $('#cpfcnpj').mask(mask, options);
-        }
-      });
-});

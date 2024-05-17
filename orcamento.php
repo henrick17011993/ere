@@ -7,6 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" crossorigin="anonymous"></script>
+    <script src="./js/orcamento.js"></script>
     <script src="./js/main.js"></script>
 </head>
 <body>
@@ -25,53 +26,53 @@
                 <h3>Dados Cadastrais da Empresa</h3>
             </div>
 
-            <div class="div-input" id="divNome">
-                <label for="razaosocial">Razão Social</label>
-                <input type="text" value="" name="razaosocial" id="razaosocial" style="width: 200px; padding: 5px; box-sizing: border-box;">
-            </div>
-            <div class="div-input" id="divEndereço">
-                <label for="Endereço">Endereço</label>
-                <input type="text" value="" name="Endereço" id="Endereço" style="width: 200px; padding: 5px; box-sizing: border-box;">
-            </div>            
-            <div class="div-input" id="divBairro">
-                <label for="Bairro">Bairro</label>
-                <input type="text" value="" name="Bairro" id="Bairro" style="width: 200px; padding: 5px; box-sizing: border-box;">
-            </div>
-            <div class="div-input" id="divCep">
-                <label for="Cep">Cep</label>
-                <input type="text" value="" name="Cep" id="Cep" placeholder="Digite o CEP" style="width: 200px; padding: 5px; box-sizing: border-box;">
-            </div>
-            <div class="div-input" id="divCidade">
-                <label for="Cidade">Cidade</label>
-                <input type="text" value="" name="Cidade" id="Cidade" style="width: 200px; padding: 5px; box-sizing: border-box;">
-            </div>            
             <div class="div-input" id="divcpfcnpj">
                 <label for="cpfcnpj">CPF/CNPJ</label>
                 <input type="text" value="" name="cpfcnpj" id="cpfcnpj" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>            
+            <div class="div-input" id="divNome">
+                <label for="razaosocial">Razão Social</label>
+                <input type="text" value="" name="razaosocial" id="razaosocial" class="readonly" readOnly="false" style="width: 200px; padding: 5px; box-sizing: border-box;">
+            </div>
+            <div class="div-input" id="divEndereco">
+                <label for="Endereco">Endereco</label>
+                <input type="text" value="" name="Endereco" id="Endereco" class="readonly" readOnly="true" style="width: 200px; padding: 5px; box-sizing: border-box;">
+            </div>            
+            <div class="div-input" id="divBairro">
+                <label for="Bairro">Bairro</label>
+                <input type="text" value="" name="Bairro" id="Bairro" class="readonly" readOnly="true" style="width: 200px; padding: 5px; box-sizing: border-box;">
+            </div>
+            <div class="div-input" id="divCep">
+                <label for="Cep">Cep</label>
+                <input type="text" value="" name="Cep" id="Cep" class="readonly" readOnly="true" placeholder="Digite o CEP" style="width: 200px; padding: 5px; box-sizing: border-box;">
+            </div>
+            <div class="div-input" id="divWhatsApp">
+                <label for="WhatsApp">WhatsApp</label>
+                <input type="text" value="" name="WhatsApp" id="WhatsApp" class="readonly" readOnly="true" style="width: 200px; padding: 5px; box-sizing: border-box;">
+            </div>            
             <div class="div-input" id="divContato">
                 <label for="Contato">Contato</label>
-                <input type="text" value="" name="Contato" id="Contato" style="width: 200px; padding: 5px; box-sizing: border-box;">
+                <input type="text" value="" name="Contato" id="Contato" class="readonly" readOnly="true" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
             <div class="div-input" id="divTelefone">
                 <label for="Telefone">Telefone</label>
-                <input type="text" value="" name="Telefone" id="Telefone" style="width: 200px; padding: 5px; box-sizing: border-box;">
+                <input type="text" value="" name="Telefone" id="Telefone" class="readonly" readOnly="true" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
             <div class="div-input" id="divEmail">
                 <label for="Email">Email</label>
-                <input type="email" value="" name="Email" placeholder="Digite seu e-mail" id="Email" style="width: 200px; padding: 5px; box-sizing: border-box;">
+                <input type="email" value="" name="Email" class="readonly" readOnly="true" placeholder="Digite seu e-mail" id="Email" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
             <div class="div-input" id="divEstado">
                 <label for="Estado"></label>
-                <input type="hidden" value="" name="Estado" id="Estado" style="width: 200px; padding: 5px; box-sizing: border-box;">
+                <input type="hidden" value="" name="Estado" class="readonly" readOnly="true" id="Estado" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
-                <div class="div-input" id="divRG">
+            <div class="div-input" id="divRG">
                 <label for="RG"></label>
-                <input type="hidden" value="" name="RG" id="RG" style="width: 200px; padding: 5px; box-sizing: border-box;">
+                <input type="hidden" value="" name="RG" id="RG" class="readonly" readOnly="true" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
-                <div class="div-input" id="divCCM">
+            <div class="div-input" id="divCCM">
                 <label for="CCM"></label>
-                <input type="hidden" value="" name="CCM" id="CCM" style="width: 200px; padding: 5px; box-sizing: border-box;">
+                <input type="hidden" value="" name="CCM" id="CCM" class="readonly" readOnly="true" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
         </div>       
         <div class="orcamento"style="margin: 2px 0px 53px 0px;">
