@@ -11,7 +11,21 @@ try {
 }
 
 try {
-    $query = $db->query("SELECT IMAGEM, TIPO, MODELOS, COR, VALOR FROM henrimack");
+    $query = $db->query("SELECT * 
+                        FROM henrimack 
+                        ORDER BY 
+                            CASE 
+                                WHEN TIPO = 'Banquetas' THEN 1
+                                WHEN TIPO = 'Sofá/Poltronas' THEN 2
+                                WHEN TIPO = 'Bistrô' THEN 3
+                                WHEN TIPO = 'Cadeiras' THEN 4
+                                WHEN TIPO = 'Mesareunião' THEN 5
+                                WHEN TIPO = 'Mesacanto' THEN 6
+                                WHEN TIPO = 'Mesacentro' THEN 7
+                                WHEN TIPO = 'Eletro/Acessórios' THEN 999
+                                ELSE 8
+                            END, 
+                    TIPO DESC;");
     $data = $query->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die('Erro na consulta SQL: ' . $e->getMessage());

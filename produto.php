@@ -40,14 +40,17 @@
                 <div class="div-input" id="divCategoria">
                     <form style=" padding: 22px 0px 0px 0px;">
                         <label for="Tipo"></label>
-                        <select <?= $acao === 'r' ? 'readonly' : '';?> name="Tipo" id="Tipo" required="True">
+                        <select <?= $acao === 'r' ? 'readonly' : '';?> name="Tipo" id="Tipo" required="true">
                             <option value="">Escolha a Categoria</option>
                             <option value="Banquetas">Banquetas</option>
                             <option value="Sofá/Poltronas">Sofá/Poltronas</option>
                             <option value="Bistrô">Bistrô</option>
-                            <option value="Mesas/Cadeiras">Mesas/Cadeiras</option>
+                            <option value="Cadeiras">Cadeiras</option>
                             <option value="Eletro/Acessórios">Eletro/Acessórios</option>
                             <option value="Puff's">Puff's</option>
+			    <option value="Mesa/centro">Mesa/centro</option>
+			    <option value="Mesa/canto">Mesa/canto</option>
+			    <option value="Mesa/reunião">Mesa/reunião</option>		
                         </select>
                     </form>
                 </div>

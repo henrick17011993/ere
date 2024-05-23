@@ -1,6 +1,6 @@
 jQuery(function($) {
     $('#Cep').mask('00000-000');
-    $('#Telefone, #WhatsApp').mask('(00) 0000-0000');
+    $('#Telefone, #WhatsApp').mask('(00) 00000-0000');
     
     $('#CpfCnpj').mask('000.000.000-00', {
         onKeyPress : function(CpfCnpj, e, field, options) {
@@ -30,7 +30,7 @@ jQuery(function($) {
         });
     });
 
-    $('.tabelaCliente').on('click', 'button[id^="buttonExcluir_"]', function() {
+    $(document).on('click', '.tabelaCliente button[id^="buttonExcluir_"]', function() {
         let idCliente = $(this).attr('id').split('_')[1];
         if (confirm('Tem certeza que deseja excluir este cliente?')) {
             $.post('php/funcoes.php', {
@@ -86,7 +86,7 @@ jQuery(function($) {
         }
     });
 
-    $('[id^="buttonCancelarEdicao"]').on('click', function() {
+    $(document).on('click', '[id^="buttonCancelarEdicao"]', function() {
         $('input[type="text"]').val('');
         $('#Email').val(''); 
         $('#clienteatualizar').hide();
@@ -123,3 +123,21 @@ function VerificaRequired(isSubmit) {
 
     return camposObrigatorios.length === 0 ? true : (isSubmit ? "Campos obrigatórios não preenchidos: " + camposObrigatorios.join(', ') : false);
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+
+    popoverTriggerList.forEach(function (popoverTriggerEl) {
+        let popover = new bootstrap.Popover(popoverTriggerEl);
+
+        popoverTriggerEl.addEventListener('mouseenter', function () {
+            popover.show();
+        });
+
+        popoverTriggerEl.addEventListener('mouseleave', function () {
+            popover.hide();
+        });
+    });
+});
+
+

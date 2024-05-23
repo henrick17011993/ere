@@ -89,9 +89,9 @@ table, td{
 table, td, th {
     border-bottom-right-radius: 1px #fff; 
     border-collapse: initial;
-    padding: 5px;
+    padding: 20px;
     text-align: start;
-    padding-right: 140px;
+    padding-right: 100px;
 }
 
 table #btnPDF {
@@ -206,7 +206,7 @@ main div.but {
     font-size: 13px;
     text-align: end;
     border: none;
-    margin-left: 2280px
+    margin-left: 1950px;
 }
 #clienteatualizar{
     display: none;
@@ -218,7 +218,7 @@ main div.but {
     font-size: 13px;
     text-align: end;
     border: none;
-    margin-left: 2280px;
+    margin-left: 1950px;
 }
 
 
@@ -594,10 +594,13 @@ nav ul li a:hover {
     border: 1px solid transparent;
     border-radius:8px;
     font-size: 19px;
-    resize: none; /* Impede a redimensionamento do textarea */
+    resize: none; 
 }
 .div-textearea textarea:focus {
-    outline: none; /* Remove a borda de foco padrão */
-    border-color: transparent; /* Torna a borda transparente quando em foco */
+    outline: none; 
+    border-color: transparent;
 }
-
+input[readonly] {
+    opacity: 0.2;
+    pointer-events: none;
+}

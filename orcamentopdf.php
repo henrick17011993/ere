@@ -48,13 +48,13 @@ try {
     $html .= '<div class="detalhes-container1 detalhes-cliente moderno">';
     $html .= '<h2>Dados do Cliente</h2>';
     $html .= '<div class="detalhe"><span>Razão Social:</span>&nbsp;' . ($detalhes[0]['razaosocial'] ?? ' ') . '&nbsp;&nbsp;&nbsp;&nbsp;<span>CPF/CNPJ:</span>&nbsp;' . ($detalhes[0]['cpfcnpj'] ?? ' ') .  '</div>';
-    $html .= '<div class="detalhe"><span>Endereço:</span>&nbsp;' . ($detalhes[0]['endereco'] ?? ' ') . ', ' . ($detalhes[0]['bairro'] ?? ' ') . ', ' . ($detalhes[0]['cidade'] ?? ' ') . ', ' . ($detalhes[0]['estado'] ?? ' ') . ' - CEP: ' . ($detalhes[0]['cep'] ?? ' ') . '</div>';
+    $html .= '<div class="detalhe"><span>Endereço:</span>&nbsp;' . ($detalhes[0]['endereco'] ?? ' ') . ', ' . ($detalhes[0]['bairro'] ?? ' ') . '&nbsp;&nbsp;&nbsp;&nbsp;<span>WhatsApp:</span>&nbsp; ' . ($detalhes[0]['WhatsApp'] ?? ' ') . ', ' . ($detalhes[0]['estado'] ?? ' ') . ' &nbsp;&nbsp;&nbsp;&nbsp;<span>CEP:</span>&nbsp; ' . ($detalhes[0]['cep'] ?? ' ') . '</div>';
     $html .= '<div class="detalhe"><span>Contato:</span>&nbsp;' . ($detalhes[0]['contato'] ?? ' ') . '&nbsp;&nbsp;&nbsp;&nbsp;<span>Telefone:</span>&nbsp;' . ($detalhes[0]['telefone'] ?? ' ') . '&nbsp;&nbsp;&nbsp;&nbsp;<span>Email:</span>&nbsp;' . ($detalhes[0]['email'] ?? ' ') .  ' </div>';
     $html .= '</div>';
 
     $html .= '<div class="detalhes-container2 detalhes-evento moderno">';
     $html .= '<h2>Dados do Evento</h2>';
-    $html .= '<div class="detalhe"><span>Nome do Evento:</span>&nbsp;' . ($detalhes[0]['nome_evento'] ?? ' ') . '&nbsp;&nbsp;&nbsp;&nbsp;<span>Local do Evento:</span>&nbsp;' . ($detalhes[0]['local'] ?? ' ') . '&nbsp;&nbsp;&nbsp;&nbsp;<span>Data de Entrega:</span>&nbsp;' . ($detalhes[0]['data_entrega'] ?? ' ') . '</div>';
+    $html .= '<div class="detalhe"><span>Nome do Evento:</span>&nbsp;' . ($detalhes[0]['nome_evento'] ?? ' ') . '&nbsp;&nbsp;&nbsp;&nbsp;<span>Local do Evento:</span>&nbsp;' . ($detalhes[0]['local'] ?? ' ') . '&nbsp;&nbsp;&nbsp;&nbsp;<span>Data Entrega:</span>&nbsp;' . ($detalhes[0]['data_entrega'] ?? ' ') . '</div>';
     $html .= '<div class="detalhe"><span>Data Inicial:</span>&nbsp;' . ($detalhes[0]['data_de'] ?? ' ') . '&nbsp;&nbsp;&nbsp;&nbsp;<span>Data Final:</span>&nbsp;' . ($detalhes[0]['data_ate'] ?? ' ') . '</div>';
     $html .= '</div>';
     $html .= '</div>';

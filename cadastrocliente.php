@@ -5,6 +5,11 @@
         <title>E.R.E. Moveis para Locação</title>
         <link rel="stylesheet" type="text/css" href="css/main.css" />
         <link rel="stylesheet" type="text/css" href="css/cadastrocliente.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.4.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-masker/1.1.0/vanilla-masker.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -28,6 +33,10 @@
             <div class="card-head"style=" padding-right: 2000px;">
                 <h3>Dados Cadastrais da Empresa</h3>
             </div>
+            <div class="div-input" id="divCpfCnpj">
+                <label for="CpfCnpj">CPF/CNPJ</label>
+                <input type="text" value="" name="CpfCnpj" id="CpfCnpj" required="true" style="width: 200px; padding: 5px; box-sizing: border-box;">
+            </div>            
             <div class="div-input" id="divNome">
                 <label for="RazaoSocial">Razão Social</label>
                 <input type="text" value="" name="RazaoSocial" id="RazaoSocial" required="true" style="width: 200px; padding: 5px; box-sizing: border-box;">
@@ -44,10 +53,6 @@
                 <label for="Cep">Cep</label>
                 <input type="text" value="" name="Cep" id="Cep" placeholder="Digite o CEP" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
-            <div class="div-input" id="divCpfCnpj">
-                <label for="CpfCnpj">CPF/CNPJ</label>
-                <input type="text" value="" name="CpfCnpj" id="CpfCnpj" required="true" style="width: 200px; padding: 5px; box-sizing: border-box;">
-            </div>            
             <div class="div-input" id="divContato">
                 <label for="Contato">Contato</label>
                 <input type="text" value="" name="Contato" id="Contato" style="width: 200px; padding: 5px; box-sizing: border-box;">
@@ -110,11 +115,17 @@
                             <td><?php echo $cliente['WhatsApp']; ?></td>
                             <td><?php echo $cliente['Contato']; ?></td>
                             <td><?php echo $cliente['Email']; ?></td>
-                            <td>
+                            <td style="text-align: center;">
                                 <div class="button-group">
-                                    <a class="actions"><button id="buttonEditar_<?php echo $cliente['IDCliente']; ?>">✎</button></a>
-                                    <a class="actions"><button id="buttonCancelarEdicao">X</button></a>
-                                    <a class="actions"><button id="buttonExcluir_<?php echo $cliente['IDCliente']; ?>">🗑</button></a>
+                                <a class="actions">
+                                    <button id="buttonEditar_<?php echo $cliente['IDCliente']; ?>" data-bs-toggle="popover" title="Editar" data-bs-content="Clique para editar o cliente">✎</button>
+                                </a>
+                                <a class="actions">
+                                    <button id="buttonCancelarEdicao" data-bs-toggle="popover" title="Cancelar a edição" data-bs-content="Clique para cancelar a edição">X</button>
+                                </a>
+                                <a class="actions">
+                                    <button id="buttonExcluir_<?php echo $cliente['IDCliente']; ?>" data-bs-toggle="popover" title="Excluir" data-bs-content="Clique para excluir o cliente">🗑</button>
+                                </a>
                                 </div>
                             </td>
                         </tr>

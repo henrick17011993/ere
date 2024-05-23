@@ -13,7 +13,7 @@
                 </ul>
             </div>
         <li class="dropdown">
-            <a href="#">Tabelas de Orçametos/entrega </a>
+            <a href="#">Tabelas de Orçamentos/entrega </a>
             <div class="dropdown-content">
                 <ul>
                     <li><a href="orcamento.php">Orçamentos</a></li>
