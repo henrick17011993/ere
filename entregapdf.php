@@ -105,6 +105,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data_atual = date('d/m/Y');
     $mpdf->SetFooter("{$montadora} - {$data_atual} - pág.{PAGENO}");
     $pdf_filename = "TabelaEntrega_{$montadora}.pdf";
+    $mpdf->Output($pdf_filename, 'F'); // Salva o arquivo no servidor
+
+    // Retorna um JSON indicando o sucesso e o nome do arquivo PDF
+    $response = array(
+        'success' => true,
+        'pdf_filename' => $pdf_filename
+    );
+    echo json_encode($response);
+    $pdf_filename = "TabelaEntrega_{$montadora}.pdf";
     $mpdf->Output($pdf_filename, 'F'); 
 
    
@@ -115,3 +124,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo json_encode($response);
 }
 ?>
+

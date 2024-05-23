@@ -44,8 +44,6 @@ function show() {
     }
 }
 
-
-
 function BuscaDados($id){
     $conn = conect();
     $SQL = "SELECT * FROM henrimack WHERE IDTIPO = :id";
