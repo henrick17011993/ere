@@ -34,7 +34,7 @@ jQuery(function($) {
                             $('#Contato').val(data[0].Contato);
                             $('#Email').val(data[0].Email);
                             $('#Telefone').val(data[0].Telefone);
-                            $('#WhatsApp').val(data[0].WhatsApp);
+                            $('#WhatsApp').val(data[0].WhatsApp);                            
                         } else {
                             limparCampos();
                         }
@@ -80,6 +80,101 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
-    });
+    });  
+
 });
 
+function calcularResultado(productId) {
+    let valor = parseFloat($("#valor_" + productId).text().replace('R$ ', '').replace(',', '.')) || 0;
+    let quantidade = parseInt($("#divQuantidade_" + productId).val()) || 0;
+    let desconto = parseFloat($("#divdesconto_" + productId).val()) || 0;
+
+    desconto = Math.max(0, desconto);
+
+    let resultado = (valor * quantidade) - (desconto * quantidade);
+
+    $("#result_" + productId).text("R$ " + resultado.toFixed(2));
+}
+
+function calcularTotal() {
+    let total = 0;
+
+    $(".div-input input[type='number']").each(function() {
+        let productId = this.id.replace("divQuantidade_", "");
+        let quantidade = parseInt($(this).val()) || 0;
+        let valorUnitario = parseFloat($("#valor_" + productId).text().replace('R$ ', '').replace(',', '.')) || 0;
+        let desconto = parseFloat($("#divdesconto_" + productId).val()) || 0;
+
+        desconto = Math.max(0, desconto);
+
+        if (!isNaN(quantidade)) {
+            total += (quantidade * valorUnitario) - (desconto * quantidade);
+        }
+    });
+
+    let frete = parseFloat($("#frete").val()) || 0;
+    total += frete;
+
+    $("#total_valor").text("R$ " + total.toFixed(2));
+}
+
+function checkStock(productId) {
+    let cpfCnpjInput = document.getElementById('cpfCnpjInput').value;
+
+    if (cpfCnpjInput === '00.000.000/0000-00' || cpfCnpjInput === '000.000.000-00') {
+        return; // Desabilita a função se o CPF/CNPJ corresponder aos valores especificados
+    }
+
+    let quantityInput = document.getElementById('divQuantidade_' + productId);
+
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', 'php/check_stock.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            let response = JSON.parse(xhr.responseText);
+            if (response.success) {
+                let quantity = parseFloat(quantityInput.value);
+                if (quantity > response.stock) {
+                    let text;
+                    if (response.stock === null || response.stock === "" || response.stock === undefined) {
+                        response.stock = 0;
+                        text = `<p>Conferir na aba Estoque!</p>
+                                <p>Quantidade disponível: ${response.stock} ou sem valor na aba "Estoque"!</p>`;
+                    } else {
+                        text = `<p>Quantidade em estoque insuficiente!</p>
+                                <p>Quantidade disponível: ${response.stock}</p>`;
+                    }
+
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Estoque Insuficiente',
+                        html: text,
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#3085d6'
+                    });
+                    quantityInput.value = parseInt(response.stock); 
+                }                
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: response.message,
+                    confirmButtonText: 'OK'
+                });
+            }
+            calcularResultado(productId);
+            calcularTotal();
+        }
+    };
+    xhr.send('idproduto=' + productId + '&quantidade=' + quantityInput.value);
+}
+
+
+$(document).ready(function() {
+    $(".div-input input[type='number'], .div-input input[type='text'], #frete").on("input", function() {
+        let productId = $(this).attr("id").replace("divQuantidade_", "").replace("divdesconto_", "");
+        calcularResultado(productId);
+        calcularTotal();
+    });
+});

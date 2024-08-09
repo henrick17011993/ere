@@ -10,7 +10,7 @@ $mpdf = new mPDF();
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "cadeira";
+$dbname = "ere";
 
 
 try {
@@ -21,7 +21,7 @@ try {
     
     $consultaDetalhes = $conn->query("SELECT o.*, p.*
                                     FROM orcamento o
-                                    LEFT JOIN produtos p ON o.idorcamento = p.idorcamento
+                                    LEFT JOIN produtosorcamento p ON o.idorcamento = p.idorcamento
                                     WHERE o.idorcamento = (SELECT MAX(idorcamento) FROM orcamento)
                                     ORDER BY o.idorcamento DESC");
 

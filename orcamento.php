@@ -7,6 +7,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./js/orcamento.js"></script>
     <script src="./js/main.js"></script>
 </head>
@@ -28,7 +30,7 @@
 
             <div class="div-input" id="divcpfcnpj">
                 <label for="cpfcnpj">CPF/CNPJ</label>
-                <input type="text" value="" name="cpfcnpj" id="cpfcnpj" style="width: 200px; padding: 5px; box-sizing: border-box;">
+                <input type="text" value="" name="cpfcnpj" id="cpfcnpj" required="True" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>            
             <div class="div-input" id="divNome">
                 <label for="razaosocial">Razão Social</label>
@@ -79,9 +81,17 @@
             <div class="card-head"style=" padding-right: 2140px;">
                 <h3>Informações do Evento</h3>
             </div>
+            <div class="div-input" id="divNome">
+                <label for="montadora">Montadora</label>
+                <input type="text" value="" name="montadora" id="montadora" required="True" style="width: 200px; padding: 5px; box-sizing: border-box;">
+            </div>
             <div class="div-input" id="divEvento">
-                <label for="Evento">Nome Evento</label>
+                <label for="Evento">Evento</label>
                 <input type="text" value="" name="Evento" id="Evento" style="width: 200px; padding: 5px; box-sizing: border-box;">
+            </div>
+            <div class="div-input" id="divEvento">
+                <label for="stand">Stand</label>
+                <input type="text" value="" name="stand" id="stand" required="True" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
             <div class="div-input" id="divLocal">
                 <label for="Local">Local</label>
@@ -96,7 +106,7 @@
                 <input type="date" value="" name="Datade" id="Datade" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
             <div class="div-input" id="divDataAte">
-                <label for="DataAte">Data ate:</label>
+                <label for="DataAte">Data de Retirada</label>
                 <input type="date" value="" name="DataAte" id="DataAte" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
             <div class="div-input" id="divEstado">
@@ -151,20 +161,20 @@
                         <td><?= $value["TIPO"] ?></td>
                         <td><?= $value["MODELOS"] ?></td>
                         <td><?= $value["COR"] ?></td>
-                        <td id="valor_<?= $value['IDTIPO'] ?>"><?=" R$ ". $value["VALOR"] ?></td>
+                        <td id="valor_<?= $value['ID'] ?>"><?=" R$ ". $value["VALOR"] ?></td>
 
                         <td class="div-input" style="width: 80px;height: 0px;margin-left: 12px;margin-top: 27px;">
-                            <input type="number" name="QUANTIDADE" id="divQuantidade_<?= $value['IDTIPO']?>">
+                            <input type="number" name="QUANTIDADE" id="divQuantidade_<?= $value['ID']?>" onblur="checkStock(<?= $value['ID'] ?>)">
                         </td>
 
-                        <td id="result_<?= $value['IDTIPO'] ?>">R$ 0.00</td>
+                        <td id="result_<?= $value['ID'] ?>">R$ 0.00</td>
 
                         <td style="text-align: center;">
-                        <input type="checkbox" name="product_checkbox[]" id="product_checkbox_<?= $value['IDTIPO'] ?>">
+                        <input type="checkbox" name="product_checkbox[]" id="product_checkbox_<?= $value['ID'] ?>">
                         </td>
                         
                         <td class="div-input" style="width: 80px;height: 0px;margin-left: 12px;margin-top: 27px;">
-                            <input type="number" name="desconto" id="divdesconto_<?= $value['IDTIPO']?>">
+                            <input type="number" name="desconto" id="divdesconto_<?= $value['ID']?>">
                         </td>
                     </tr>
                 <?php endforeach; ?>

@@ -2,7 +2,7 @@
 // printr($_POST);
 function conect(){
     try {
-        return new PDO("mysql:host=localhost;dbname=cadeira", "root", "");
+        return new PDO("mysql:host=localhost;dbname=ere", "root", "");
     } catch (PDOException $e) {
         echo "Erro na conexão com o banco de dados: " . $e->getMessage();
         exit();
@@ -16,7 +16,7 @@ function show() {
     }
 
     $SQL = "SELECT * 
-            FROM henrimack 
+            FROM produtosere 
             ORDER BY 
                 CASE 
                     WHEN TIPO = 'Banquetas' THEN 1
@@ -46,7 +46,7 @@ function show() {
 
 function BuscaDados($id){
     $conn = conect();
-    $SQL = "SELECT * FROM henrimack WHERE IDTIPO = :id";
+    $SQL = "SELECT * FROM produtosere WHERE ID = :id";
     $query = $conn->prepare($SQL);
     $query->bindParam(":id", $id, PDO::PARAM_INT);
     $query->execute();
@@ -55,9 +55,9 @@ function BuscaDados($id){
 
 function editar($post){
     $conn = conect();
-    $SQL = "UPDATE henrimack 
+    $SQL = "UPDATE produtosere 
             SET TIPO = :TIPO, MODELOS = :MODELOS, COR = :COR, VALOR = :VALOR 
-            WHERE IDTIPO = :id";
+            WHERE ID = :id";
     $query = $conn->prepare($SQL);
     $query->bindParam(":id", $post["id"], PDO::PARAM_INT);
     $query->bindParam(":TIPO", $post["tipo"]);
@@ -68,7 +68,7 @@ function editar($post){
 
 function Deleta($post){
     $conn = conect();
-    $SQL = "DELETE FROM henrimack WHERE IDTIPO = :id";
+    $SQL = "DELETE FROM produtosere WHERE ID = :id";
     $query = $conn->prepare($SQL);
     $query->bindParam(":id", $post["id"], PDO::PARAM_INT);
     $query->execute();
@@ -160,7 +160,7 @@ function GerarCodigo($cpfcnpj,$razaoSocial,$codigo) {
     $servername = "localhost";
     $username = "root";
     $password = "";
-    $dbname = "cadeira";
+    $dbname = "ere";
     
     $conexao = mysqli_connect($servername, $username, $password, $dbname);
     
@@ -207,12 +207,12 @@ function GerarCodigo($cpfcnpj,$razaoSocial,$codigo) {
     return $novoCodigoFormatado; 
 }
 
-
 function Orcamento($post) {
     try {
         $conn = conect();
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $dataAtual = date('Y-m-d');
+        $status = "Ag/Confir";
 
         $razaoSocial = $_POST['razaoSocial'];
         $endereco = $_POST['endereco'];
@@ -226,17 +226,22 @@ function Orcamento($post) {
         $contato = $_POST['contato'];
         $telefone = $_POST['telefone'];
         $email = $_POST['email'];
+
         $nomeEvento = $_POST['nomeEvento'];
+        $montadora = $_POST['montadora'];
+        $stand = $_POST['stand'];
         $local = $_POST['local'];
+
         $data_entrega = $_POST['dataEntrega'];
         $data_de = $_POST['dataDe'];
         $data_ate = $_POST['dataAte'];
-        $DAorcfeito = $_POST['dataAte'];
 
         $codigo = '';
         $codigoUnico = GerarCodigo($cpfcnpj,$razaoSocial,$codigo);
 
-        $sql = "INSERT INTO orcamento (codigounico, razaosocial, endereco, bairro, cep, WhatsApp, estado, cpfcnpj, rg, ccm, contato, telefone, email, nome_evento, local, data_entrega, data_de, data_ate, DAorcfeito) VALUES (:codigounico, :razaosocial, :endereco, :bairro, :cep, :WhatsApp, :estado, :cpfcnpj, :rg, :ccm, :contato, :telefone, :email, :nome_evento, :local, :data_entrega, :data_de, :data_ate, :DAorcfeito)";
+        $sql = "INSERT INTO orcamento (codigounico, razaosocial, endereco, bairro, cep, WhatsApp, estado, cpfcnpj, rg, ccm, contato, telefone, email, nome_evento, local, data_entrega, data_de, data_ate, DAorcfeito, STATUS, Montadora, Stand ) 
+        VALUES (:codigounico, :razaosocial, :endereco, :bairro, :cep, :WhatsApp, :estado, :cpfcnpj, :rg, :ccm, :contato, :telefone, :email, :nome_evento, :local, :data_entrega, :data_de, :data_ate, :DAorcfeito, :STATUS, :Montadora, :Stand )";
+
 
         $stmt = $conn->prepare($sql);
 
@@ -255,10 +260,14 @@ function Orcamento($post) {
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':nome_evento', $nomeEvento);
         $stmt->bindParam(':local', $local);
+        $stmt->bindParam(':Montadora', $montadora);
+        $stmt->bindParam(':Stand', $stand);
+
         $stmt->bindParam(':data_entrega', $data_entrega);
         $stmt->bindParam(':data_de', $data_de);
         $stmt->bindParam(':data_ate', $data_ate);
         $stmt->bindParam(':DAorcfeito',$dataAtual);
+        $stmt->bindParam(':STATUS', $status);
 
         $stmt->execute();
 
@@ -268,7 +277,7 @@ function Orcamento($post) {
             foreach ($_POST['checkboxSelections'] as $checkboxSelection) {
                 $checkboxData = json_decode($checkboxSelection, true);
 
-                $sqlProdutos = "INSERT INTO produtos (codigounico, idorcamento, imagem, tipo, modelos, cor, valor, quantidade) VALUES (:codigounico, :idorcamento, :imagem, :tipo, :modelos, :cor, :valor, :quantidade)";
+                $sqlProdutos = "INSERT INTO produtosorcamento (codigounico, idorcamento, imagem, tipo, modelos, cor, valor, quantidade) VALUES (:codigounico, :idorcamento, :imagem, :tipo, :modelos, :cor, :valor, :quantidade)";
 
                 $stmtProdutos = $conn->prepare($sqlProdutos);
 
@@ -311,7 +320,7 @@ function Insere($post) {
         }
 
         if (move_uploaded_file($imagem['tmp_name'], $caminhoImagem)) {
-            $SQL = "INSERT INTO henrimack (TIPO, MODELOS, COR, VALOR, IMAGEM)
+            $SQL = "INSERT INTO produtosere (TIPO, MODELOS, COR, VALOR, IMAGEM)
                     VALUES (:TIPO, :MODELOS, :COR, :VALOR, :IMAGEM)";
 
             $query = $conn->prepare($SQL);
@@ -346,38 +355,44 @@ function printc($data)
     echo '</script>';
 }
 
-function Estoque($post){
-    if(isset($post['id']) && isset($post['quantidade'])){
+function Estoque($post) {
+    if (isset($post['id']) && isset($post['quantidade']) && isset($post['imagem'])) {
         $id = $post['id'];
         $quantidade = $post['quantidade'];
-        
+        $imagem = $post['imagem'];
+        $Nfora = 0;
+
         $conn = conect();
 
-        $sql_verifica = "SELECT COUNT(*) AS count FROM estoque WHERE idproduto = :idproduto";
+        $sql_verifica = "SELECT idestoque, COUNT(*) AS count FROM estoque WHERE imagem = :imagem";
         $stmt_verifica = $conn->prepare($sql_verifica);
-        $stmt_verifica->bindParam(':idproduto', $id);
+        $stmt_verifica->bindParam(':imagem', $imagem, PDO::PARAM_STR);
         $stmt_verifica->execute();
         $resultado = $stmt_verifica->fetch(PDO::FETCH_ASSOC);
 
-        if($resultado['count'] > 0){
-            $sql_atualiza = "UPDATE estoque SET Nestoque = :Nestoque WHERE idproduto = :idproduto";
+        if ($resultado['count'] > 0) {
+            // Imagem encontrada, atualiza somente a quantidade no registro existente
+            $sql_atualiza = "UPDATE estoque SET Nestoque = :Nestoque WHERE idestoque = :idestoque";
             $stmt_atualiza = $conn->prepare($sql_atualiza);
-            $stmt_atualiza->bindParam(':Nestoque', $quantidade);
-            $stmt_atualiza->bindParam(':idproduto', $id);
-            if($stmt_atualiza->execute()){
+            $stmt_atualiza->bindParam(':Nestoque', $quantidade, PDO::PARAM_INT);
+            $stmt_atualiza->bindParam(':idestoque', $resultado['idestoque'], PDO::PARAM_INT);
+            if ($stmt_atualiza->execute()) {
                 echo "Quantidade de estoque atualizada com sucesso!";
             } else {
                 echo "Erro ao atualizar a quantidade de estoque.";
             }
         } else {
-            $sql_insere = "INSERT INTO estoque (idproduto, Nestoque) VALUES (:idproduto, :Nestoque)";
+            // Inserir novo registro com quantidade e imagem
+            $sql_insere = "INSERT INTO estoque (idproduto, Nestoque, Nfora, imagem) VALUES (:idproduto, :Nestoque,:Nfora, :imagem)";
             $stmt_insere = $conn->prepare($sql_insere);
-            $stmt_insere->bindParam(':idproduto', $id);
-            $stmt_insere->bindParam(':Nestoque', $quantidade);
-            if($stmt_insere->execute()){
-                echo "Quantidade de estoque inserida com sucesso!";
+            $stmt_insere->bindParam(':idproduto', $id, PDO::PARAM_INT);
+            $stmt_insere->bindParam(':Nfora', $Nfora , PDO::PARAM_INT);
+            $stmt_insere->bindParam(':Nestoque', $quantidade, PDO::PARAM_INT);
+            $stmt_insere->bindParam(':imagem', $imagem, PDO::PARAM_STR);
+            if ($stmt_insere->execute()) {
+                echo "Quantidade de estoque e imagem inseridas com sucesso!";
             } else {
-                echo "Erro ao inserir a quantidade de estoque.";
+                echo "Erro ao inserir a quantidade de estoque e imagem.";
             }
         }
     } else {
@@ -556,4 +571,41 @@ function ClienteRepetido($post){
         echo 'existe';
     }
 }
+
+function AtualizaCampo($id, $campo, $valor) {
+    try {
+        $conn = conect();
+
+        // Lista de campos permitidos para evitar SQL Injection
+        $camposPermitidos = ['IMAGEM', 'TIPO', 'MODELOS', 'COR', 'VALOR'];
+        
+        if (!in_array($campo, $camposPermitidos)) {
+            throw new Exception("Campo não permitido: " . $campo);
+        }
+
+        $sql = "UPDATE produtosere SET $campo = :valor WHERE ID = :id";
+        $stmt = $conn->prepare($sql);
+
+        // Bind dos parâmetros
+        $stmt->bindParam(':valor', $valor);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            error_log("Erro na execução da query: " . implode(", ", $stmt->errorInfo()));
+            return false;
+        }
+    } catch (PDOException $e) {
+        error_log("Erro de conexão: " . $e->getMessage());
+        return false;
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return false;
+    }
+}
+
+
+
+
 

@@ -6,9 +6,9 @@
     <link rel="stylesheet" type="text/css" href="css/main.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-masker/1.1.0/vanilla-masker.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-masker/1.1.0/vanilla-masker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" crossorigin="anonymous"></script>
     <script src="./js/main.js"></script>
     <script src="./js/tabelaentrega.js"></script>
 </head>
@@ -27,16 +27,12 @@
                 <h3>Tabela de entrega</h3>
             </div>
             <div class="div-input" id="divNome">
-                <label for="evento">Evento</label>
-                <input type="text" value="" name="evento" id="evento" required="True" style="width: 200px; padding: 5px; box-sizing: border-box;">
-            </div>
-            <div class="div-input" id="divNome">
                 <label for="montadora">Montadora</label>
                 <input type="text" value="" name="montadora" id="montadora" required="True" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
-            <div class="div-input" id="divContato">
-                <label for="Contato">Contato</label>
-                <input type="text" value="" name="Contato" id="Contato" required="True" style="width: 200px; padding: 5px; box-sizing: border-box;">
+            <div class="div-input" id="divNome">
+                <label for="evento">Evento</label>
+                <input type="text" value="" name="evento" id="evento" required="True" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
             <div class="div-input" id="divEvento">
                 <label for="stand">Stand</label>
@@ -46,13 +42,17 @@
                 <label for="Local">Local</label>
                 <input type="text" value="" name="Local" id="Local" required="True" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div> 
+            <div class="div-input" id="divContato">
+                <label for="Contato">Contato</label>
+                <input type="text" value="" name="Contato" id="Contato" required="True" style="width: 200px; padding: 5px; box-sizing: border-box;">
+            </div>
             <div class="div-input" id="divEntrega">
                 <label for="Entrega">Data de Entrega</label>
                 <input type="date" value="" name="Entrega" id="Entrega" required="True" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
-            <div class="div-input" id="divDatade">
-                <label for="Datade">Data de Retirada:</label>
-                <input type="date" value="" name="Datade" id="Datade" required="True" style="width: 200px; padding: 5px; box-sizing: border-box;">
+            <div class="div-input" id="divDataAte">
+                <label for="DataAte">Data de Retirada</label>
+                <input type="date" value="" name="DataAte" id="DataAte" required="True" style="width: 200px; padding: 5px; box-sizing: border-box;">
             </div>
         </div>
        
@@ -86,7 +86,7 @@
                         <td style="text-align: center;"><?= $value["MODELOS"] ?></td>
 
                         <td style="text-align: center" class="div-textearea">
-                            <textarea name="Observacao" id="divObservacao_<?= $value['IDTIPO']?>" rows="3" cols="0" style="resize: none; font-size: 19px;"></textarea>
+                            <textarea name="Observacao" id="divObservacao_<?= $value['ID']?>" rows="3" cols="0" style="resize: none; font-size: 19px;"></textarea>
                         </td>
 
                         <td style="text-align: -webkit-center;">
@@ -96,13 +96,13 @@
                         </td>
 
                         <td class="div-input" style="width: 80px;height: 0px;margin-left: 12px;margin-top: 27px; text-align: center;">
-                            <input type="number" name="QUANTIDADE" id="divQuantidade_<?= $value['IDTIPO']?>">
+                            <input type="number" name="QUANTIDADE" id="divQuantidade_<?= $value['ID']?>">
                         </td>
 
                         <td style="text-align: center;">
-                        <input type="checkbox" name="product_checkbox[]" id="product_checkbox_<?= $value['IDTIPO'] ?>">
+                        <input type="checkbox" name="product_checkbox[]" id="product_checkbox_<?= $value['ID'] ?>">
                         </td>
-                    </tr>
+                    </tr>                    
                 <?php endforeach; ?>
             </tbody>
                 </tr>

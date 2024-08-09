@@ -5,23 +5,38 @@ require "php/funcoes.php";
 $mpdf = new mPDF();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    global $montadora;
+    // Lendo e decodificando a entrada JSON
+    $input = file_get_contents('php://input');
+    $data = json_decode($input, true);
 
-    $evento = isset($_POST['evento']) ? $_POST['evento'] : '';
-    $montadora = isset($_POST['montadora']) ? $_POST['montadora'] : '';
-    $contato = isset($_POST['contato']) ? $_POST['contato'] : '';
-    $stand = isset($_POST['stand']) ? $_POST['stand'] : '';
-    $local = isset($_POST['local']) ? $_POST['local'] : '';
-    $entrega = isset($_POST['entrega']) ? $_POST['entrega'] : '';
-    $retirada = isset($_POST['retirada']) ? $_POST['retirada'] : '';
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Erro ao decodificar JSON: ' . json_last_error_msg()
+        ]);
+        exit;
+    }
+
+    $evento = $data['evento'] ?? '';
+    $montadora = $data['montadora'] ?? '';
+    $contato = $data['contato'] ?? '';
+    $stand = $data['stand'] ?? '';
+    $local = $data['local'] ?? '';
+    $entrega = $data['entrega'] ?? '';
+    $retirada = $data['retirada'] ?? '';
+    $produtosSelecionados = $data['produtos'] ?? [];
 
     try {
-        $db = new PDO("mysql:host=localhost;dbname=cadeira", "root");
+        $db = new PDO("mysql:host=localhost;dbname=ere", "root");
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {
-        die('Erro de conexão com o banco de dados: ' . $e->getMessage());
-    }   
-    
+        echo json_encode([
+            'success' => false,
+            'message' => 'Erro de conexão com o banco de dados: ' . $e->getMessage()
+        ]);
+        exit;
+    }
+
     $html = '
     <link rel="stylesheet" type="text/css" href="css/entregapdf.css" />
     <div style="background-color: #03429e; padding: 5px; margin-top: 40px;">
@@ -29,34 +44,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <table border="0" cellpadding="0" cellspacing="0" width="50%" class="borda-arredondada">
-        
-            <tr>
-                <th colspan="2" style="text-align: right; width: 20%;">&nbsp;</th>
-                <th colspan="10" style="text-align: left; width: 80%;"><b>Stand:</b> '.$stand.'</th>
-            </tr>
-            <tr>
-            <th colspan="2" style="text-align: left; width: 20%;"><b>Evento:</b> ' . $evento.'</th>
-                <th colspan="10" style="text-align: left; width: 80%;"><b>Local:</b> '.$local.'</th>
-            </tr>
-            <tr>
-                <th colspan="2" style="text-align: left; width: 20%;"><b>Montadora:</b> ' . $montadora.'</th>
-                <th colspan="10" style="text-align: left; width: 80%;"><b>Entrega:</b> '.$entrega.'</th>
-            </tr>
-            <tr>
-                <th colspan="2" style="text-align: left ; width: 20%;"><b>Contato:</b> ' . $contato.'</th>
-                <th colspan="10" style="text-align: left; width: 80%;"><b>Retirada:</b> '.$retirada.'</th>
-            </tr>
-            <tr>
-                <th colspan="1" style="text-align: left; background-color: #03429e; width: 25%;"><b>Modelo</b></th>
-                <th colspan="1" style="text-align: left; background-color: #03429e; width: 25%;"><b>Observação</b></th>
-                <th colspan="1" style="text-align: center; background-color: #03429e; width: 25%;"><b>Imagem</b></th>
-                <th colspan="1" style="text-align: center; background-color: #03429e; width: 25%;"><b>Quantidade</b></th>
-            </tr>
+        <tr>
+            <th colspan="2" style="text-align: right; width: 20%;">&nbsp;</th>
+            <th colspan="10" style="text-align: left; width: 80%;"><b>Stand:</b> ' . $stand . '</th>
+        </tr>
+        <tr>
+            <th colspan="2" style="text-align: left; width: 20%;"><b>Evento:</b> ' . $evento . '</th>
+            <th colspan="10" style="text-align: left; width: 80%;"><b>Local:</b> ' . $local . '</th>
+        </tr>
+        <tr>
+            <th colspan="2" style="text-align: left; width: 20%;"><b>Montadora:</b> ' . $montadora . '</th>
+            <th colspan="10" style="text-align: left; width: 80%;"><b>Entrega:</b> ' . $entrega . '</th>
+        </tr>
+        <tr>
+            <th colspan="2" style="text-align: left ; width: 20%;"><b>Contato:</b> ' . $contato . '</th>
+            <th colspan="10" style="text-align: left; width: 80%;"><b>Retirada:</b> ' . $retirada . '</th>
+        </tr>
+        <tr>
+            <th colspan="1" style="text-align: left; background-color: #03429e; width: 25%;"><b>Modelo</b></th>
+            <th colspan="1" style="text-align: left; background-color: #03429e; width: 25%;"><b>Observação</b></th>
+            <th colspan="1" style="text-align: center; background-color: #03429e; width: 25%;"><b>Imagem</b></th>
+            <th colspan="1" style="text-align: center; background-color: #03429e; width: 25%;"><b>Quantidade</b></th>
+        </tr>
         <tbody>';
 
-    $html .= '<!-- Aqui vai o restante do código, dentro do loop dos produtos -->';
-
-    $produtosSelecionados = json_decode($_POST['produtos'], true);
     foreach ($produtosSelecionados as $index => $produto) {
         if ($index % 10 === 0 && $index !== 0) {
             $mpdf->AddPage();
@@ -68,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $obse_queb = wordwrap($observacao, 10, "\n", true);
 
         try {
-            $query = $db->query("SELECT IMAGEM, MODELOS FROM henrimack WHERE IDTIPO = $id");
+            $query = $db->query("SELECT IMAGEM, MODELOS FROM produtosere WHERE ID = $id");
             $data = $query->fetchAll(PDO::FETCH_ASSOC);
 
             if ($query->rowCount() > 0) {
@@ -88,10 +99,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $html .= '<tr><td colspan="3">Produto não encontrado para o ID: ' . $id . '</td></tr>';
             }
         } catch (PDOException $e) {
-            die('Erro na consulta SQL: ' . $e->getMessage());
+            echo json_encode([
+                'success' => false,
+                'message' => 'Erro na consulta SQL: ' . $e->getMessage()
+            ]);
+            exit;
         }
     }
-    
+
     $html .= '
         </tbody>
         <tfoot>
@@ -108,20 +123,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mpdf->Output($pdf_filename, 'F'); // Salva o arquivo no servidor
 
     // Retorna um JSON indicando o sucesso e o nome do arquivo PDF
-    $response = array(
+    echo json_encode([
         'success' => true,
         'pdf_filename' => $pdf_filename
-    );
-    echo json_encode($response);
-    $pdf_filename = "TabelaEntrega_{$montadora}.pdf";
-    $mpdf->Output($pdf_filename, 'F'); 
-
-   
-    $response = array(
-        'success' => true,
-        'pdf_filename' => $pdf_filename
-    );
-    echo json_encode($response);
+    ]);
 }
 ?>
+
 

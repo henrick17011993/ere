@@ -78,7 +78,7 @@
                     <tr>
                         <td colspan="0">
                             <button type="button" id="clientesubmit">Salvar Cliente</button>
-                            <button id= "clienteatualizar">Editar</button>
+                            <button id="clienteatualizar">Editar</button>
                         </td>
                     </tr>
             </tfoot>
@@ -117,15 +117,15 @@
                             <td><?php echo $cliente['Email']; ?></td>
                             <td style="text-align: center;">
                                 <div class="button-group">
-                                <a class="actions">
-                                    <button id="buttonEditar_<?php echo $cliente['IDCliente']; ?>" data-bs-toggle="popover" title="Editar" data-bs-content="Clique para editar o cliente">✎</button>
-                                </a>
-                                <a class="actions">
-                                    <button id="buttonCancelarEdicao" data-bs-toggle="popover" title="Cancelar a edição" data-bs-content="Clique para cancelar a edição">X</button>
-                                </a>
-                                <a class="actions">
-                                    <button id="buttonExcluir_<?php echo $cliente['IDCliente']; ?>" data-bs-toggle="popover" title="Excluir" data-bs-content="Clique para excluir o cliente">🗑</button>
-                                </a>
+                                    <a class="actions">
+                                        <button id="buttonEditar_<?php echo $cliente['IDCliente']; ?>" class="btn btn-primary" data-bs-toggle="popover" title="Editar" data-bs-content="Clique para editar o cliente">🔍</button>
+                                    </a>
+                                    <a class="actions">
+                                        <button id="buttonCancelarEdicao" class="btn btn-secondary" data-bs-toggle="popover" title="Cancelar a edição" data-bs-content="Clique para cancelar a edição">X</button>
+                                    </a>
+                                    <a class="actions">
+                                        <button id="buttonExcluir_<?php echo $cliente['IDCliente']; ?>" class="btn btn-danger" data-bs-toggle="popover" title="Excluir" data-bs-content="Clique para excluir o cliente">🗑</button>
+                                    </a>
                                 </div>
                             </td>
                         </tr>

@@ -4,7 +4,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 $mpdf = new mPDF();
 
 try {
-    $db = new PDO("mysql:host=localhost;dbname=cadeira", "root");
+    $db = new PDO("mysql:host=localhost;dbname=ere", "root");
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die('Erro de conexão com o banco de dados: ' . $e->getMessage());
@@ -12,7 +12,7 @@ try {
 
 try {
     $query = $db->query("SELECT * 
-                        FROM henrimack 
+                        FROM produtosere
                         ORDER BY 
                             CASE 
                                 WHEN TIPO = 'Banquetas' THEN 1
@@ -145,8 +145,6 @@ foreach ($categorias as $tipo => $itens) {
 
 
 $html .= '</div>';
-
 $mpdf->WriteHTML($html);
-
-$mpdf->Output( );
+$mpdf->Output("Catalogo_E.R.E.pdf","D");
 ?>

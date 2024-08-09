@@ -58,13 +58,8 @@ $(document).ready(function () {
 
             window.location.href = 'imprimir.php?info=' + informacaoCodificada;
         }
-    });   
-
-    // $('#btnAtualizar').on('click', function () {
-    //     const id = $(this).data('id');
-    //     AtualizaDados(id);
-    // });
-
+    });  
+  
     $('[id^=btnD_]').on('click', function () {
         if (confirm('tem certeza que deseja excluir esse produto? ')) {
             const id = $(this).data('id');
@@ -142,7 +137,7 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (ret) {
-                location.href = 'index.php';
+                location.href = 'catalogo.php';
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText);
@@ -169,49 +164,49 @@ $(document).ready(function () {
         });
     }
 
-    $(document).ready(function() {
+    // $(document).ready(function() {
     
-        function calcularResultado(productId) {
-            var valor = parseFloat($("#valor_" + productId).text().replace('R$ ', '').replace(',', '.')) || 0;
-            var quantidade = parseInt($("#divQuantidade_" + productId).val()) || 0;
-            var desconto = parseFloat($("#divdesconto_" + productId).val()) || 0;
+    //     function calcularResultado(productId) {
+    //         var valor = parseFloat($("#valor_" + productId).text().replace('R$ ', '').replace(',', '.')) || 0;
+    //         var quantidade = parseInt($("#divQuantidade_" + productId).val()) || 0;
+    //         var desconto = parseFloat($("#divdesconto_" + productId).val()) || 0;
     
-            desconto = Math.max(0, desconto);
+    //         desconto = Math.max(0, desconto);
     
-            var resultado = (valor * quantidade) - (desconto * quantidade);
+    //         var resultado = (valor * quantidade) - (desconto * quantidade);
     
-            $("#result_" + productId).text("R$ " + resultado.toFixed(2));
-        }
+    //         $("#result_" + productId).text("R$ " + resultado.toFixed(2));
+    //     }
     
-        function calcularTotal() {
-            var total = 0;
+    //     function calcularTotal() {
+    //         var total = 0;
     
-            $(".div-input input[type='number']").each(function() {
-                var productId = this.id.replace("divQuantidade_", "");
-                var quantidade = parseInt($(this).val()) || 0;
-                var valorUnitario = parseFloat($("#valor_" + productId).text().replace('R$ ', '').replace(',', '.')) || 0;
-                var desconto = parseFloat($("#divdesconto_" + productId).val()) || 0;
+    //         $(".div-input input[type='number']").each(function() {
+    //             var productId = this.id.replace("divQuantidade_", "");
+    //             var quantidade = parseInt($(this).val()) || 0;
+    //             var valorUnitario = parseFloat($("#valor_" + productId).text().replace('R$ ', '').replace(',', '.')) || 0;
+    //             var desconto = parseFloat($("#divdesconto_" + productId).val()) || 0;
     
-                desconto = Math.max(0, desconto);
+    //             desconto = Math.max(0, desconto);
     
-                if (!isNaN(quantidade)) {
-                    total += (quantidade * valorUnitario) - (desconto * quantidade);
-                }
-            });
+    //             if (!isNaN(quantidade)) {
+    //                 total += (quantidade * valorUnitario) - (desconto * quantidade);
+    //             }
+    //         });
     
-            var frete = parseFloat($("#frete").val()) || 0;
-            total += frete;
+    //         var frete = parseFloat($("#frete").val()) || 0;
+    //         total += frete;
     
-            $("#total_valor").text("R$ " + total.toFixed(2));
-        }
+    //         $("#total_valor").text("R$ " + total.toFixed(2));
+    //     }
     
-        $(".div-input input[type='number'], .div-input input[type='text'], #frete").on("input", function() {
-            var productId = $(this).attr("id").replace("divQuantidade_", "").replace("divdesconto_", "");
-            calcularResultado(productId);
-            calcularTotal();
-        });
+    //     $(".div-input input[type='number'], .div-input input[type='text'], #frete").on("input", function() {
+    //         var productId = $(this).attr("id").replace("divQuantidade_", "").replace("divdesconto_", "");
+    //         calcularResultado(productId);
+    //         calcularTotal();
+    //     });
         
-    });    
+    // });    
     
     
     function enviarDadosOrcamento() {
@@ -232,6 +227,9 @@ $(document).ready(function () {
 
         formData.append('nomeEvento', document.getElementById('Evento').value);
         formData.append('local', document.getElementById('Local').value);
+        formData.append('montadora', document.getElementById('montadora').value);
+        formData.append('stand', document.getElementById('stand').value);
+        
         formData.append('dataEntrega', document.getElementById('Entrega').value);
         formData.append('dataDe', document.getElementById('Datade').value);
         formData.append('dataAte', document.getElementById('DataAte').value);
@@ -324,4 +322,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+
+
+
 

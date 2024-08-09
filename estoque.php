@@ -62,11 +62,11 @@
                                 <td><?= $produto["COR"] ?></td>
                                 <td class="div-input" style="width: 80px;height: 0px;margin-left: 12px;margin-top: 27px;">
                                     <?php
-                                    $estoque = getPuxarEstoque($produto['IDTIPO']);
+                                    $estoque = getPuxarEstoque($produto['ID']);
                                     if ($estoque !== false) {
-                                        echo '<input type="number" name="QuantidadeEstoque" id="divQuantidadeEstoque_' . $produto['IDTIPO'] . '" value="' . $estoque . '">';
+                                        echo '<input type="number" name="QuantidadeEstoque" id="divQuantidadeEstoque_' . $produto['ID'] . '" value="' . $estoque . '">';
                                     } else {
-                                        echo '<input type="number" name="QuantidadeEstoque" id="divQuantidadeEstoque_' . $produto['IDTIPO'] . '" value=" ">';
+                                        echo '<input type="number" name="QuantidadeEstoque" id="divQuantidadeEstoque_' . $produto['ID'] . '" value=" ">';
                                     }
                                     ?>
                                 </td>
